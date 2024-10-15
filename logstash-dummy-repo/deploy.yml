@@ -1,0 +1,26 @@
+---
+- hosts: logstash_server
+  become: yes
+  tasks:
+    - name: Copy Logstash config file
+      copy:
+        src: logstash/logstash.conf
+        dest: /etc/logstash/conf.d/logstash.conf
+        owner: logstash
+        group: logstash
+        mode: '0644'
+
+    - name: Copy Logstash pipeline file
+      copy:
+        src: logstash/pipeline.conf
+        dest: /etc/logstash/conf.d/pipeline.conf
+        owner: logstash
+        group: logstash
+        mode: '0644'
+
+    - name: Ensure correct file permissions
+      file:
+        path: /etc/logstash/conf.d/
+        owner: logstash
+        group: logstash
+        recurse: yes
